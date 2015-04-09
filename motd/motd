@@ -1,0 +1,81 @@
+#!/bin/bash
+USER=`whoami`
+N_USERS=`users | wc -w`
+if [ $N_USERS -eq 1 ]; then
+   P_USERS="user"
+else
+   P_USERS="users"
+fi
+
+ROOT_FS="/dev/sda1"
+HOME_FS="?"
+BACKUP_FS="?"
+
+
+HOSTNAME=`uname -n`
+ROOT=`df -Ph | grep $ROOT_FS | awk '{print $4}' | tr -d '\n'`
+HOME=`df -Ph | grep $HOME_FS | awk '{print $4}' | tr -d '\n'`
+BACKUP=`df -Ph | grep $BACKUP_FS | awk '{print $4}' | tr -d '\n'`
+
+MEMORY1=`free -t -m | grep "buffers/cache" | awk '{print $3" MB";}'`
+MEMORY2=`free -t -m | grep "Mem" | awk '{print $2" MB";}'`
+SWAP=`free -m | tail -n 1 | awk '{print $3}'`
+PSA=`ps -Afl | wc -l`
+
+# time of day
+HOUR=$(date +"%H")
+if [ $HOUR -lt 12 -a $HOUR -ge 0 ]
+then TIME="morning"
+elif [ $HOUR -lt 17 -a $HOUR -ge 12 ]
+then TIME="afternoon"
+else
+TIME="evening"
+fi
+
+DATE=$(date +"%H:%M, %a %b %d, %Y")
+
+RELEASE=`lsb_release -d -s`
+ 
+#System uptime
+uptime=`cat /proc/uptime | cut -f1 -d.`
+upDays=$((uptime/60/60/24))
+upHours=$((uptime/60/60%24))
+upMins=$((uptime/60%60))
+upSecs=$((uptime%60))
+
+#System load
+LOAD1=`cat /proc/loadavg | awk {'print $1'}`
+LOAD5=`cat /proc/loadavg | awk {'print $2'}`
+LOAD15=`cat /proc/loadavg | awk {'print $3'}`
+
+ASCIIART="
+
+ #     #                             
+ #     # ###### #      #       ####  
+ #     # #      #      #      #    # 
+ ####### #####  #      #      #    # 
+ #     # #      #      #      #    # 
+ #     # #      #      #      #    # 
+ #     # ###### ###### ######  #### 
+
+"
+
+echo "$ASCIIART
+Good $TIME $USER"
+
+echo "
+===========================================================================
+- Hostname............: $HOSTNAME
+- Release.............: $RELEASE
+- Users...............: Currently $N_USERS $P_USERS logged on
+===========================================================================
+- Current user........: $USER
+- CPU usage...........: $LOAD1, $LOAD5, $LOAD15 (1, 5, 15 min)
+- Memory used.........: $MEMORY1 / $MEMORY2
+- Swap in use.........: $SWAP MB
+- Processes...........: $PSA running
+- System uptime.......: $upDays days $upHours hours $upMins minutes $upSecs seconds
+- Current time........: $DATE
+- Disk space ROOT.....: $ROOT remaining
+===========================================================================
+"
