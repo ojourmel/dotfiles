@@ -37,69 +37,93 @@ configure-shell: bash elinks htop motd vim zsh
 
 configure-desktop: i3 urxvt
 
-diff-all: diff-bash diff-elinks diff-htop diff-i3 diff-motd diff-urxvt diff-vim
+diff-all: diff-bash diff-elinks diff-htop diff-i3 diff-motd diff-urxvt diff-vim diff-zsh
+	@true
 
-diff-bash: bash
-	diff ~/.bashrc bash/bashrc
+diff-bash:
+	@echo "====================== bash ======================"
+	-diff ~/.bashrc bash/bashrc
+	@echo ""
 
-diff-elinks: elinks
-	diff ~/.elinks/elinks.conf elinks/elinks.conf
+diff-elinks:
+	@echo "====================== elinks ======================"
+	-diff ~/.elinks/elinks.conf elinks/elinks.conf
+	@echo ""
 
-diff-htop: htop
-	diff ~/.config/htop/htoprc htop/htoprc
+diff-htop:
+	@echo "====================== htop ======================"
+	-diff ~/.config/htop/htoprc htop/htoprc
+	@echo ""
 
-diff-i3: i3
-	diff ~/.i3/config i3/config
-	diff ~/.i3status.conf i3/i3status.conf
-	diff ~/.i3/i3status.conf i3/i3status.conf
+diff-i3:
+	@echo "====================== i3 ======================"
+	-diff ~/.i3/config i3/config
+	@echo ""
+	-diff ~/.i3status.conf i3/i3status.conf
+	@echo ""
+	-diff ~/.i3/i3status.conf i3/i3status.conf
+	@echo ""
 
-diff-motd: motd
-	diff ~/.motd motd/motd
+diff-motd:
+	@echo "====================== motd ======================"
+	-diff ~/.motd motd/motd
+	@echo ""
 
-diff-urxvt: urxvt
-	diff ~/.Xresources urxvt/Xresources
+diff-urxvt:
+	@echo "====================== urxvt ======================"
+	-diff ~/.Xresources urxvt/Xresources
+	@echo ""
 
-diff-vim: vim
-	diff ~/.vimrc vim/vimrc
+diff-vim:
+	@echo "====================== vim ======================"
+	-diff ~/.vimrc vim/vimrc
+	@echo ""
 
-diff-zsh: zsh
-	diff ~/.zlogin zsh/zlogin
-	diff ~/.zshaliases zsh/zshaliases
-	diff ~/.zshenv zsh/zshenv
-	diff ~/.zshfunctions zsh/zshfunctions
-	diff ~/.zshgrml zsh/zshgrml
-	diff ~/.zshrc zsh/zshrc
+diff-zsh:
+	@echo "====================== zsh ======================"
+	-diff ~/.zlogin zsh/zlogin
+	@echo ""
+	-diff ~/.zshaliases zsh/zshaliases
+	@echo ""
+	-diff ~/.zshenv zsh/zshenv
+	@echo ""
+	-diff ~/.zshfunctions zsh/zshfunctions
+	@echo ""
+	-diff ~/.zshgrml zsh/zshgrml
+	@echo ""
+	-diff ~/.zshrc zsh/zshrc
+	@echo ""
 
-bash: bash
+bash:
 	cp bash/bashrc ~/.bashrc
 
-elinks: elinks
+elinks:
 	[ -d ~/.elinks ] || mkdir ~/.elinks
 	cp elinks/elinks.conf ~/.elinks/elinks.conf
 
-htop: htop
+htop:
 	[ -d ~/.config/htop ] || mkdir -p ~/.config/htop
 	cp htop/htoprc ~/.config/htop/htoprc
 
-i3: i3
+i3:
 	[ -d ~/.i3 ] || mkdir ~/.i3
 	cp i3/config ~/.i3/config
 	cp i3/i3status.conf ~/.i3/i3status.conf
 
-motd: motd
+motd:
 	cp motd/motd ~/.motd
 	chmod a+x ~/.motd
 
-urxvt: urxvt
+urxvt:
 	cp urxvt/Xresources ~/.Xresources
 
-vim: vim
-	[ -d ~/.vim ] && rm -rf ~/.vim
+vim:
+	-[ -d ~/.vim ] && rm -rf ~/.vim
 	cp -r vim/vim ~/.vim
 	cp vimrc ~/.vimrc
 	vim +PluginInstall +qal
 
-zsh: zsh
+zsh:
 	cp zsh/zlogin ~/.zlogin
 	cp zsh/zshaliases ~/.zshaliases
 	cp zsh/zshenv ~/.zshenv
