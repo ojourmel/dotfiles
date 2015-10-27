@@ -116,6 +116,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Control+L exec ~/.i3/lock
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -185,5 +186,6 @@ bar {
 # Startup Programs--
 
 # My background
-exec --no-startup-id feh --no-fehbg --bg-center ~/.fehbg.jpg
+exec --no-startup-id feh --no-fehbg --bg-fill ~/.fehbg.jpg
+exec --no-startup-id xautolock -time 5 -locker '~/.i3/lock' &
 exec --no-startup-id xrdb -merge ~/.Xresources
