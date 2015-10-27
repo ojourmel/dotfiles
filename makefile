@@ -15,6 +15,12 @@ help:
 	@echo "Use backup-all to create a dofile-backup folder and save your current configuration!"
 	@echo "Use backup-restore to replace your current configuration with the files in ~/dotfile-backup/"
 
+git-tmux-module:
+	git submodule update --init tmux/tmux/plugins/tpm
+
+git-vim-module:
+	git submodule update --init vim/vim/bundle/Vundle.Vim
+
 setup-all:
 	@echo "WARNING! This will clober your current dotfiles!"
 	@echo ""
@@ -249,7 +255,7 @@ motd:
 urxvt:
 	cp urxvt/Xresources ~/.Xresources
 
-vim:
+vim:git-vim-module
 	@-[ -d ~/.vim ] && rm -rf ~/.vim
 	cp -r vim/vim ~/.vim
 	cp vim/vimrc ~/.vimrc
@@ -266,7 +272,7 @@ zsh:
 bin:
 	cp -r bin/ ~/bin
 
-tmux:
+tmux:git-tmux-module
 	@-[ -d ~/.tmux ] && rm -rf ~/.tmux
 	cp -r tmux/tmux ~/.tmux
 	cp tmux/tmux.conf ~/.tmux.conf
