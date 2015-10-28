@@ -86,7 +86,9 @@ back-motd:
 	@true
 
 back-urxvt:
-	cp ~/.Xresources ~/dotfiles-backup/Xresources
+	@[ -d ~/dotfiles-backup/urxvt ] || mkdir -p ~/dotfiles-backup/urxvt/
+	cp ~/.Xresources ~/dotfiles-backup/urxvt/Xresources
+	cp -r ~/.urxvt/ ~/dotfiles-backup/urxvt/urxvt
 	@true
 
 back-vim:
@@ -136,7 +138,9 @@ brest-motd:
 	@true
 
 brest-urxvt:
-	cp ~/dotfiles/Xresources ~/.Xresources
+	@[ -d ~/.urxvt ] && rm -rf .urxvt
+	cp -R ~/dotfiles-backup/urxvt/urxvt ~/.urxvt
+	cp ~/dotfiles/urxvt/Xresources ~/.Xresources
 	@true
 
 brest-vim:
@@ -200,6 +204,7 @@ diff-motd:
 diff-urxvt:
 	@echo "====================== urxvt ======================"
 	-diff ~/.Xresources urxvt/Xresources
+	-diff ~/.urxvt urxvt
 	@echo ""
 
 diff-vim:
@@ -253,6 +258,8 @@ motd:
 	chmod a+x ~/.motd
 
 urxvt:
+	@-[ -d ~/.urxvt ] && rm -rf ~/.urxvt
+	cp -r urxvt/urxvt ~/.urxvt
 	cp urxvt/Xresources ~/.Xresources
 
 vim:git-vim-module
