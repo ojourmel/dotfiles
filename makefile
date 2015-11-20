@@ -270,6 +270,8 @@ tmux:
 	@-[ -d ~/.tmux ] && rm -rf ~/.tmux
 	cp -r tmux/tmux ~/.tmux
 	cp tmux/tmux.conf ~/.tmux.conf
+	rm -rf ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm.git  ~/.tmux/plugins/tpm
 
 
 .PHONY: brest-tmux diff-htop back-htop install-all back-motd setup-all diff-all brest-motd htop diff-bin back-bin diff-elinks back-elinks diff-i3 back-i3 brest-zsh makefile brest-urxvt urxvt back-tmux configure-all brest-vim help brest-bash diff-motd backup-all brest-htop motd configure-shell diff-tmux vim diff-zsh configure-desktop back-zsh diff-urxvt back-urxvt tmux bash zsh brest-bin backup-restore diff-vim back-vim i3 brest-elinks brest-i3 diff-bash back-bash elinks bin
