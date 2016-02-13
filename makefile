@@ -266,6 +266,8 @@ vim:git-vim-module
 	@-[ -d ~/.vim ] && rm -rf ~/.vim
 	cp -r vim/vim ~/.vim
 	cp vim/vimrc ~/.vimrc
+	rm -rf ~/.vim/bundle/Vundle.Vim
+	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	vim +PluginInstall +qall
 
 zsh:
