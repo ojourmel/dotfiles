@@ -22,6 +22,21 @@ MEMORY2=`free -t -m | grep "Mem" | awk '{print $2" MB";}'`
 SWAP=`free -m | tail -n 1 | awk '{print $3}'`
 PSA=`ps -Afl | wc -l`
 
+IP=()
+ipaddr=`ip -4 -o addr`
+regex="([0-9a-Z]+)[ \t\n]+inet ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)"
+
+OLDIFS=$IFS
+IFS=$'\n';
+for i in $ipaddr
+do
+    if [[ $i =~ $regex ]]
+    then
+        IP+=" ${BASH_REMATCH[1]}:${BASH_REMATCH[2]}"
+    fi
+done
+IFS=$OLDIFS
+
 # time of day
 HOUR=$(date +"%H")
 if [ $HOUR -lt 12 -a $HOUR -ge 0 ]
@@ -35,7 +50,7 @@ fi
 DATE=$(date +"%H:%M, %a %b %d, %Y")
 
 RELEASE=`lsb_release -d -s`
- 
+
 #System uptime
 uptime=`cat /proc/uptime | cut -f1 -d.`
 upDays=$((uptime/60/60/24))
@@ -50,13 +65,13 @@ LOAD15=`cat /proc/loadavg | awk {'print $3'}`
 
 ASCIIART="
 
- #     #                             
- #     # ###### #      #       ####  
- #     # #      #      #      #    # 
- ####### #####  #      #      #    # 
- #     # #      #      #      #    # 
- #     # #      #      #      #    # 
- #     # ###### ###### ######  #### 
+ #     #
+ #     # ###### #      #       ####
+ #     # #      #      #      #    #
+ ####### #####  #      #      #    #
+ #     # #      #      #      #    #
+ #     # #      #      #      #    #
+ #     # ###### ###### ######  ####
 
 "
 
@@ -76,6 +91,10 @@ echo "
 - Processes...........: $PSA running
 - System uptime.......: $upDays days $upHours hours $upMins minutes $upSecs seconds
 - Current time........: $DATE
-- Disk space ROOT.....: $ROOT remaining
-===========================================================================
+- Disk space ROOT.....: $ROOT remaining"
+for i in $IP
+do
+    echo "- IP address..........: $i"
+done
+echo "===========================================================================
 "
